@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>mychat</title>
+        <style>
+            .buttons {
+                width: 50px;
+                height: 30px;
+                border: 1px double black;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;                
+            }
+            .buttons1 {
+                position: relative;
+                width: 35px;
+                height: 25px;
+                border-radius: 5px;
+                border: 2px double black;
+            }
+            .page { 
+                background: #3CB371;
+            }
+            .block1 {
+                border: 1px double black;
+                width: 99%; 
+                height: 97%;
+                position: absolute;
+            }
+        </style>
+    </head>
+    <body class="page">
+        <form class="block1">
+            <p style="font: normal small-caps 28px sans-serif;
+                top: 1%;
+                left: 5%;
+                position: absolute;">
+                user online list
+            </p>
+            <p style="font: normal small-caps 28px sans-serif;
+                top: 0px;
+                left: 50%;
+                position: absolute;
+                color: #F0E68C;
+                background: #9932CC;">
+                messages
+            </p>
+            <p style="position: absolute;
+                top: 0px;
+                left: 90%;">
+                no connection
+            </p>
+            <div style="top: 80px;
+                left: 40%;
+                position: absolute;
+                width: 158px;
+                height: 30px;">
+                <button class="buttons">
+                    public
+                </button>
+                <button class="buttons">
+                    user5
+                </button>
+                <button class="buttons">
+                    user1
+                </button>
+            </div>
+            <table style="top: 110px;
+                left: 4%;
+                position: absolute;
+                background: #ffffff;
+                width: 20%;
+                height: 65%;
+                font-size: 20px;">
+                <tr>
+                    <td>user1</td>
+                </tr>
+                <tr>
+                    <td>user2</td>
+                </tr>
+                <tr>
+                    <td>user3</td>
+                </tr>
+                <tr>
+                    <td>user4</td>
+                </tr>
+                <tr>
+                    <td>user5</td>
+                </tr>
+                <tr>
+                    <td>user6</td>
+                </tr>
+                <tr>
+                    <td>user7</td>
+                </tr>
+            </table>
+            <table style="top: 110px;
+                line-height: 0;
+                left: 40%;
+                position: absolute;
+                background: #ffffff;
+                width: 50%;
+                height: 65%;
+                font-size: 20px;">
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>                        
+                        <button class="buttons1">
+                            edit
+                        </button>
+                        <button class="buttons1">
+                            del
+                        </button>
+                        you:hi
+                    </td>
+                </tr>
+                <tr>
+                    <td>user4:hello</td>
+                </tr>
+            </table>
+            <input type="text"
+                   placeholder="Enter message"
+                   style="width: 74%;
+                   height: 35px;
+                   top: 87%;
+                   left: 4%;
+                   position: relative;
+                   border-width: 3px;
+                   border-color: black;
+                   font-size: 25px">
+            <button style="width: 10%;
+                   height: 40px;
+                   top: 87%;
+                   left: 80%;
+                   position: absolute;
+                   border-width: 1px;
+                   border-color: black;
+                   border-radius: 3px;
+                   font-size: 25px">
+                send
+            </button>
+        </form>
+    </body>
+</html>
