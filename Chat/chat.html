@@ -7,33 +7,11 @@ and open the template in the editor.
 <html>
     <head>
         <title>mychat</title>
-        <style>
-            .buttons {
-                width: 50px;
-                height: 30px;
-                border: 1px double black;
-                border-top-left-radius: 5px;
-                border-top-right-radius: 5px;                
-            }
-            .buttons1 {
-                position: relative;
-                width: 35px;
-                height: 25px;
-                border-radius: 5px;
-                border: 2px double black;
-            }
-            .page { 
-                background: #72bb53;
-            }
-            .block1 {
-                width: 99%; 
-                height: 97%;
-                position: absolute;
-            }
-        </style>
+        <link rel="stylesheet" href="chatcss.css"/>
+        <script src="newjavascript.js"></script>
     </head>
-    <body class="page">
-        <form class="block1">
+    <body  onload="run();" class="page">
+        <div class="block1">
             <p style="font: normal small-caps 28px sans-serif;
                 top: 1%;
                 left: 5%;
@@ -53,11 +31,12 @@ and open the template in the editor.
                 left: 90%;">
                 no connection
             </p>
-            <div style="top: 80px;
-                left: 40%;
+            <div style="top: 110px;
+                left: 90%;
+                overflow: auto;
                 position: absolute;
-                width: 158px;
-                height: 30px;">
+                width: 70px;
+                height: 200px;">
                 <button class="buttons">
                     public
                 </button>
@@ -97,51 +76,20 @@ and open the template in the editor.
                     <td>user7</td>
                 </tr>
             </table>
-            <table style="top: 110px;
-                line-height: 0;
-                left: 40%;
-                position: absolute;
-                background: #ffffff;
-                width: 50%;
-                height: 65%;
-                font-size: 20px;">
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>                        
-                        <button class="buttons1">
-                            edit
-                        </button>
-                        <button class="buttons1">
-                            del
-                        </button>
-                        you:hi
-                    </td>
-                </tr>
-                <tr>
-                    <td>user4:hello</td>
-                </tr>
-            </table>
+            <div class ="chat vis">
+                <div class="item">
+                </div>              
+            </div>
+            <div class ="chat hid">
+                <div class="item">
+                </div>              
+            </div>
+            <div class ="chat hid">
+                <div class="item">
+                </div>              
+            </div>
             <input type="text"
+                   id ="message"
                    placeholder="Enter message"
                    style="width: 74%;
                    height: 35px;
@@ -151,17 +99,9 @@ and open the template in the editor.
                    border-width: 3px;
                    border-color: black;
                    font-size: 25px">
-            <button style="width: 10%;
-                   height: 40px;
-                   top: 87%;
-                   left: 80%;
-                   position: absolute;
-                   border-width: 1px;
-                   border-color: black;
-                   border-radius: 3px;
-                   font-size: 25px">
+            <button class ="send">
                 send
             </button>
-        </form>
+        </div>
     </body>
 </html>
