@@ -1,14 +1,25 @@
 <!DOCTYPE HTML>
 <html>
     <head>
+        <meta charset="UTF-8">
         <title>
             Authorization
         </title>
         <link rel="stylesheet" href="authocss.css"/>
+        <script type="text/javascript">
+            function ref() {
+                var username = document.getElementById('1').value;
+                if(username==='') {
+                    alert('enter login');
+                    return;
+                }
+                location.href='chat.html?name='+username;
+            }
+         </script>
     </head>
     <body class = "page">
         <p class="head">
-            Enter your login and pass
+            Enter your login
         </p>
         <form class="block1" style="top: 60px;
             left: 37%; position: relative">
@@ -19,17 +30,11 @@
                 no connection
             </p>
             <input type="text"
+                   id="1"
                    placeholder="login"
                    style="width: 200px;
                    height: 23px;
-                   top: 10px;
-                   left: 100px;
-                   position: relative;">
-            <input type="password"
-                   placeholder="password"
-                   style="width: 200px;
-                   height: 23px;
-                   top: 70px;
+                   top: 80px;
                    left: 100px;
                    position: relative;">
             <button style="width: 150px;
@@ -40,16 +45,10 @@
                     font: normal small-caps 20px sans-serif;
                     border: 1px double black;
                     border-radius: 3px;"
-                    formaction="chat.html">
+                    type="button"
+                    onclick="ref()">
                 sign
             </button>
-            <a href="autho.html"
-               style="top: 270px;
-                    left: 150px;
-                    position: absolute;
-                    color: #F0E68C;">
-                Create new user
-            </a>
         </form>
     </body>
 </html>

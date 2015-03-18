@@ -42,6 +42,7 @@
             .buttons1 {
                 margin-left: 5px;
                 margin-top: 5px;
+                margin-bottom: 5px;
                 position: relative;
                 width: 35px;
                 height: 25px;
@@ -55,4 +56,7 @@
                 width: 99%; 
                 height: 97%;
                 position: absolute;
+            }
+            .deleted {
+                color: #ffffff;
             }
