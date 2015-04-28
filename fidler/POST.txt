@@ -1,0 +1,14 @@
+POST http://localhost:999/chat HTTP/1.1
+User-Agent: Composer
+Host: localhost:999
+Content-Type: application/json
+Content-Length: 25
+
+{"message": "my message"}
+HTTP/1.1 200 OK
+Date: Tue, 28 Apr 2015 14:41:06 GMT
+Transfer-encoding: chunked
+Access-control-allow-origin: *
+
+0
+
