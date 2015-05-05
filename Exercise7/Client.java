@@ -113,7 +113,7 @@ public class Client implements Runnable {
 
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
 
-            byte[] bytes = num.getBytes();
+            byte[] bytes = messageExchange.delClientMessageRequest(num).getBytes();
             wr.write(bytes, 0, bytes.length);
             wr.flush();
             wr.close();

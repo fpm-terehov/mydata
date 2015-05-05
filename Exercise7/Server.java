@@ -76,7 +76,8 @@ public class Server implements HttpHandler {
 
     private void doDelete(HttpExchange httpExchange) {
         try {
-            String ind = messageExchange.inputStreamToString(httpExchange.getRequestBody());
+            String str1 = messageExchange.inputStreamToString(httpExchange.getRequestBody());
+            String ind = messageExchange.getClientId(str1);
             String str = history.get(Integer.parseInt(ind));
             str = str.substring(0, str.indexOf(":")) + ":DELETED";
             history.set(Integer.parseInt(ind), str);

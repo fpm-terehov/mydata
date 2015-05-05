@@ -25,6 +25,12 @@ public class MessageExchange {
         return jsonObject.toJSONString();
     }
 
+    public String delClientMessageRequest(String id) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("id",id);
+        return jsonObject.toJSONString();
+    }
+    
     public String getClientSendMessageRequest(String message,String id) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id",id);
