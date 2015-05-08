@@ -76,24 +76,6 @@ public class Server implements HttpHandler {
             System.out.println("Unable to send response !");
         }
     }
-
-    /*private void sendGets() {
-        String response = "";
-        
-        for(HttpExchange httpExchange : userReq) {
-            try {
-                response = doGet(httpExchange);
-                
-                sendResponse(httpExchange, response);
-                System.out.println("Response sent, size " + response.length());
-                System.out.println("End request " + httpExchange.getRequestMethod());
-            } catch (Exception e) {
-                response = messageExchange.getErrorMessage(e.getMessage());
-                e.printStackTrace();
-            }
-        }
-        userReq.clear();
-    }*/
     
     private String doGet(HttpExchange httpExchange) throws Exception {
         String query = httpExchange.getRequestURI().getQuery();
@@ -140,6 +122,7 @@ public class Server implements HttpHandler {
 
         for(Task item : taskList) {
             if(task.getId().equals(item.getId())) {
+                item.setDone(task.getDone());
                 item.setDescription(task.getDescription());
                 return;
             }

@@ -20,7 +20,7 @@ public class MessageExchange {
     }
 
     public String getServerResponse(List<Task> tasks, int index) {
-        List<Task> chunk = tasks.subList(index, tasks.size());
+        List<Task> chunk = tasks.subList(0, tasks.size());
         JSONObject jsonObject = new JSONObject();
 
         jsonObject.put("tasks", chunk);

@@ -1,5 +1,7 @@
 'use strict';
 
+var intervalID;
+
 function getName() {
     var params = location.search;
     return params.split("=")[1];
@@ -32,10 +34,15 @@ function run() {
 
 	appContainer.addEventListener('click', delegateEvent);
         appContainer.addEventListener('keydown', delegateEvent);
-	setInterval(restore,1000);
+	intervalID = setInterval(restore,1000);
 }
 
 function createAllTasks(allTasks) {
+        appState.taskList = [];
+        var items = document.getElementsByClassName('chat vis')[0];
+        while (items.firstChild) {
+            items.removeChild(items.firstChild);
+        }
 	for(var i = 0; i < allTasks.length; i++)
 		addTodoInternal(allTasks[i]);
 }
@@ -82,13 +89,14 @@ function enter(evtObj) {
                 continue;
             taskList[i].description = evtObj.target.value;
             put(appState.mainUrl + '?id=' + taskList[i].id, JSON.stringify(taskList[i]), function() {
-		continueWith();
             });
+            intervalID = setInterval(restore,1000);
             return;
         }    
 }
 
 function onCngItem(divItem) {
+        clearInterval(intervalID);
 	var taskList = appState.taskList;  
         for(var i = 0; i < taskList.length; i++) {
             if(taskList[i].id !== divItem.id)
@@ -117,7 +125,6 @@ function onDelItem(divItem) {
                     return;
                 
 		toggle(taskList[i], function() {
-			updateItem(divItem, taskList[i]);
 		});
 
 		return;
@@ -127,25 +134,11 @@ function onDelItem(divItem) {
 function toggle(task, continueWith) {
 	task.done = !task.done;
 	put(appState.mainUrl + '?id=' + task.id, JSON.stringify(task), function() {
-		continueWith();
 	});
-}
-
-function updateItem(divItem, task){
-	if(task.done) {
-            divItem.classList.add('deleted');
-            divItem.childNodes[1].textContent = 'res';
-        } else {
-            divItem.classList.remove('deleted');
-            divItem.childNodes[1].textContent = 'del';
-        }
-
-	divItem.lastChild.textContent = task.description;
 }
 
 function addTodo(task, continueWith) {
 	post(appState.mainUrl, JSON.stringify(task), function(){
-		restore();
 	});
 }
 
