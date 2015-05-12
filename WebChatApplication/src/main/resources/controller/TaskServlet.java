@@ -36,8 +36,6 @@ public class TaskServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-            String log4jConfPath = "log4j.properties";
-            PropertyConfigurator.configure(log4jConfPath);
 		try {
 			loadHistory();
 		} catch (SAXException | IOException | ParserConfigurationException | TransformerException e) {
@@ -114,10 +112,10 @@ public class TaskServlet extends HttpServlet {
 	}
 
 	private void loadHistory() throws SAXException, IOException, ParserConfigurationException, TransformerException  {
-		if (XMLHistoryUtil.doesStorageExist()) {
+		//if (XMLHistoryUtil.doesStorageExist()) {
 			TaskStorage.addAll(XMLHistoryUtil.getTasks());
-		} else {
+		/*} else {
 			XMLHistoryUtil.createStorage();
-		}
+		}*/
 	}
 }
