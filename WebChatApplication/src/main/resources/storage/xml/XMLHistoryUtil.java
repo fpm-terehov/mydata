@@ -1,4 +1,4 @@
-package storage.xml;
+package org.exadel.todos.storage.xml;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import model.Task;
+import org.exadel.todos.model.Task;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -29,7 +29,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public final class XMLHistoryUtil {
-	private static final String STORAGE_LOCATION = System.getProperty("user.home") +  File.separator + "history.xml";
+	private static final String STORAGE_LOCATION = System.getProperty("user.home") +  File.separator + "history.xml"; // history.xml will be located in the home directory
 	private static final String TASKS = "tasks";
 	private static final String TASK = "task";
 	private static final String ID = "id";
@@ -124,7 +124,7 @@ public final class XMLHistoryUtil {
 	}
 
 	public static synchronized List<Task> getTasks() throws SAXException, IOException, ParserConfigurationException {
-		List<Task> tasks = new ArrayList<Task>();
+		List<Task> tasks = new ArrayList<>();
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document document = documentBuilder.parse(STORAGE_LOCATION);
@@ -159,6 +159,7 @@ public final class XMLHistoryUtil {
 	private static Transformer getTransformer() throws TransformerConfigurationException {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
+		// Formatting XML properly
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		return transformer;
 	}
