@@ -24,7 +24,7 @@ var theTask = function(text, str, done) {
 };
 
 var appState = {
-	mainUrl : 'http://localhost:1555/chat',
+	mainUrl : 'WebChatApplication',
 	taskList:[],
 	token : 'TN11EN'
 };
