@@ -28,7 +28,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.xml.sax.SAXException;
 
-@WebServlet("/todos")
+@WebServlet("/WebChatApplication")
 public class TaskServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(TaskServlet.class.getName());
@@ -51,7 +51,7 @@ public class TaskServlet extends HttpServlet {
 		if (token != null && !"".equals(token)) {
 			int index = getIndex(token);
 			logger.info("Index " + index);
-			String tasks = formResponse(index);
+			String tasks = formResponse(0);
 			response.setContentType(ServletUtil.APPLICATION_JSON);
 			PrintWriter out = response.getWriter();
 			out.print(tasks);
