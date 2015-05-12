@@ -29,7 +29,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public final class XMLHistoryUtil {
-	public static final String STORAGE_LOCATION = System.getProperty("user.home") +  File.separator + "hstory.xml";
+	private static final String STORAGE_LOCATION = System.getProperty("user.home") +  File.separator + "history.xml";
 	private static final String TASKS = "tasks";
 	private static final String TASK = "task";
 	private static final String ID = "id";
