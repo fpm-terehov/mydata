@@ -29,7 +29,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public final class XMLHistoryUtil {
-	private static final String STORAGE_LOCATION = System.getProperty("user.home") +  File.separator + "history.xml"; // history.xml will be located in the home directory
+	public static final String STORAGE_LOCATION = System.getProperty("user.home") +  File.separator + "history.xml";
 	private static final String TASKS = "tasks";
 	private static final String TASK = "task";
 	private static final String ID = "id";
@@ -159,7 +159,6 @@ public final class XMLHistoryUtil {
 	private static Transformer getTransformer() throws TransformerConfigurationException {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
-		// Formatting XML properly
 		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 		return transformer;
 	}

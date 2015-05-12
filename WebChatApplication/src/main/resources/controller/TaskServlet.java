@@ -22,6 +22,7 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.log4j.Logger;
 import model.Task;
 import model.TaskStorage;
+import org.apache.log4j.PropertyConfigurator;
 import storage.xml.XMLHistoryUtil;
 import util.ServletUtil;
 import org.json.simple.JSONObject;
@@ -35,6 +36,8 @@ public class TaskServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
+            String log4jConfPath = "log4j.properties";
+            PropertyConfigurator.configure(log4jConfPath);
 		try {
 			loadHistory();
 		} catch (SAXException | IOException | ParserConfigurationException | TransformerException e) {
@@ -51,7 +54,7 @@ public class TaskServlet extends HttpServlet {
 		if (token != null && !"".equals(token)) {
 			int index = getIndex(token);
 			logger.info("Index " + index);
-			String tasks = formResponse(index);
+			String tasks = formResponse(0);
 			response.setContentType(ServletUtil.APPLICATION_JSON);
 			PrintWriter out = response.getWriter();
 			out.print(tasks);
@@ -115,24 +118,6 @@ public class TaskServlet extends HttpServlet {
 			TaskStorage.addAll(XMLHistoryUtil.getTasks());
 		} else {
 			XMLHistoryUtil.createStorage();
-			addStubData();
 		}
 	}
-	
-	private void addStubData() throws ParserConfigurationException, TransformerException {
-		Task[] stubTasks = { 
-				new Task("1", "Create markup", true), 
-				new Task("2", "Learn JavaScript", true),
-				new Task("3", "Learn Java Servlet Technology", false), 
-				new Task("4", "Write The Chat !", false), };
-		TaskStorage.addAll(stubTasks);
-		for (Task task : stubTasks) {
-			try {
-				XMLHistoryUtil.addData(task);
-			} catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
-				logger.error(e);
-			}
-		}
-	}
-
 }
