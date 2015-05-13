@@ -45,13 +45,14 @@ public class TaskServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("doGet");
+                logger.info("228");
 		String token = request.getParameter(TOKEN);
 		logger.info("Token " + token);
 
 		if (token != null && !"".equals(token)) {
 			int index = getIndex(token);
 			logger.info("Index " + index);
-			String tasks = formResponse(index);
+			String tasks = formResponse(0);
 			response.setContentType(ServletUtil.APPLICATION_JSON);
 			PrintWriter out = response.getWriter();
 			out.print(tasks);
