@@ -11,6 +11,7 @@ public final class TaskUtil {
 	private static final String TN = "TN";
 	private static final String EN = "EN";
 	private static final String ID = "id";
+	private static final String NAME = "name";
 	private static final String DESCRIPTION = "description";
 	private static final String DONE = "done";
 
@@ -33,11 +34,12 @@ public final class TaskUtil {
 
 	public static Task jsonToTask(JSONObject json) {
 		Object id = json.get(ID);
+		Object name = json.get(NAME);
 		Object description = json.get(DESCRIPTION);
 		Object done = json.get(DONE);
 
 		if (id != null && description != null && done != null) {
-			return new Task((String) id, (String) description, (Boolean) done);
+			return new Task((String) id, (String) name, (String) description, (Boolean) done);
 		}
 		return null;
 	}

@@ -43,8 +43,9 @@ function createAllTasks(allTasks) {
         while (items.firstChild) {
             items.removeChild(items.firstChild);
         }
-	for(var i = 0; i < allTasks.length; i++)
+	for(var i = 0; i < allTasks.length; i++){
 		addTodoInternal(allTasks[i]);
+            }
 }
 
 function delegateEvent(evtObj) {
@@ -131,7 +132,7 @@ function onDelItem(divItem) {
 
 function toggle(task, continueWith) {
 	task.done = !task.done;
-	put(appState.mainUrl + '?id=' + task.id, JSON.stringify(task), function() {
+	del(appState.mainUrl + '?id=' + task.id, JSON.stringify(task), function() {
 	});
 }
 
@@ -176,7 +177,7 @@ function createItem(task) {
 }
 
 function restore(continueWith) {
-	var url = appState.mainUrl + '?token= TN11EN' + '&name=' + getName();
+	var url = appState.mainUrl + '?token=TN11EN' + '&name=' + getName();
 
 	get(url, function(responseText) {
 		console.assert(responseText !== null);

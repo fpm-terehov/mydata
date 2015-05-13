@@ -33,6 +33,7 @@ public final class XMLHistoryUtil {
 	private static final String TASKS = "tasks";
 	private static final String TASK = "task";
 	private static final String ID = "id";
+	private static final String NAME = "name";
 	private static final String DESCRIPTION = "description";
 	private static final String DONE = "done";
 
@@ -67,6 +68,10 @@ public final class XMLHistoryUtil {
 
 		taskElement.setAttribute(ID, task.getId());
 
+                Element name = document.createElement(NAME);
+		name.appendChild(document.createTextNode(task.getName()));
+		taskElement.appendChild(name);
+                
 		Element description = document.createElement(DESCRIPTION);
 		description.appendChild(document.createTextNode(task.getDescription()));
 		taskElement.appendChild(description);
@@ -134,9 +139,10 @@ public final class XMLHistoryUtil {
 		for (int i = 0; i < taskList.getLength(); i++) {
 			Element taskElement = (Element) taskList.item(i);
 			String id = taskElement.getAttribute(ID);
+			String name = taskElement.getElementsByTagName(NAME).item(0).getTextContent();
 			String description = taskElement.getElementsByTagName(DESCRIPTION).item(0).getTextContent();
 			boolean done = Boolean.valueOf(taskElement.getElementsByTagName(DONE).item(0).getTextContent());
-			tasks.add(new Task(id, description, done));
+			tasks.add(new Task(id, name, description, done));
 		}
 		return tasks;
 	}

@@ -2,11 +2,13 @@ package org.exadel.todos.model;
 
 public class Task {
 	private String id;
+	private String name;
 	private String description;
 	private boolean done;
 
-	public Task(String id, String description, boolean done) {
+	public Task(String id, String name, String description, boolean done) {
 		this.id = id;
+		this.name = name;
 		this.description = description;
 		this.done = done;
 	}
@@ -19,6 +21,14 @@ public class Task {
 		this.id = id;
 	}
 
+        public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+        
 	public String getDescription() {
 		return description;
 	}

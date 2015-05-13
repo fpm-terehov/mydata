@@ -45,16 +45,16 @@ public class TaskServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("doGet");
-                logger.info("228");
 		String token = request.getParameter(TOKEN);
 		logger.info("Token " + token);
 
 		if (token != null && !"".equals(token)) {
 			int index = getIndex(token);
 			logger.info("Index " + index);
-			String tasks = formResponse(0);
+			String tasks = formResponse(index);
 			response.setContentType(ServletUtil.APPLICATION_JSON);
 			PrintWriter out = response.getWriter();
+                        logger.info(tasks);
 			out.print(tasks);
 			out.flush();
 		} else {
@@ -103,6 +103,29 @@ public class TaskServlet extends HttpServlet {
 		}
 	}
 
+        @Override
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		logger.info("doDelete");
+		String data = ServletUtil.getMessageBody(request);
+		logger.info(data);
+		try {
+			JSONObject json = stringToJson(data);
+			Task task = jsonToTask(json);
+			String id = task.getId();
+			Task taskToUpdate = TaskStorage.getTaskById(id);
+			if (taskToUpdate != null) {
+				taskToUpdate.setDone(task.isDone());
+				XMLHistoryUtil.updateData(taskToUpdate);
+				response.setStatus(HttpServletResponse.SC_OK);
+			} else {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Task does not exist");
+			}
+		} catch (ParseException | ParserConfigurationException | SAXException | TransformerException | XPathExpressionException e) {
+			logger.error(e);
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+		}
+	}
+        
 	@SuppressWarnings("unchecked")
 	private String formResponse(int index) {
 		JSONObject jsonObject = new JSONObject();
@@ -116,23 +139,6 @@ public class TaskServlet extends HttpServlet {
 			TaskStorage.addAll(XMLHistoryUtil.getTasks());
 		} else {
 			XMLHistoryUtil.createStorage();
-			addStubData();
-		}
-	}
-	
-	private void addStubData() throws ParserConfigurationException, TransformerException {
-		Task[] stubTasks = { 
-				new Task("1", "Create markup", true), 
-				new Task("2", "Learn JavaScript", true),
-				new Task("3", "Learn Java Servlet Technology", false), 
-				new Task("4", "Write The Chat !", false), };
-		TaskStorage.addAll(stubTasks);
-		for (Task task : stubTasks) {
-			try {
-				XMLHistoryUtil.addData(task);
-			} catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
-				logger.error(e);
-			}
 		}
 	}
 
