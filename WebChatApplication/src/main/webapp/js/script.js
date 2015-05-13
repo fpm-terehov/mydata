@@ -34,7 +34,7 @@ function run() {
 
 	appContainer.addEventListener('click', delegateEvent);
         appContainer.addEventListener('keydown', delegateEvent);
-	intervalID = setInterval(restore,1000);
+	restore();
 }
 
 function createAllTasks(allTasks) {
@@ -90,13 +90,11 @@ function enter(evtObj) {
             taskList[i].description = evtObj.target.value;
             put(appState.mainUrl + '?id=' + taskList[i].id, JSON.stringify(taskList[i]), function() {
             });
-            intervalID = setInterval(restore,1000);
             return;
         }    
 }
 
 function onCngItem(divItem) {
-        clearInterval(intervalID);
 	var taskList = appState.taskList;  
         for(var i = 0; i < taskList.length; i++) {
             if(taskList[i].id !== divItem.id)
