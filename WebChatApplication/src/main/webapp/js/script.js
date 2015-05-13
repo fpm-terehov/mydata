@@ -103,6 +103,7 @@ function onCngItem(divItem) {
 
             if(taskList[i].done || getName() !== taskList[i].name)
                 return;
+            
             var all = document.createElement('input');
             all.classList.add('vis');
             all.setAttribute('type','text');
@@ -119,7 +120,7 @@ function onDelItem(divItem) {
 	for(var i = 0; i < taskList.length; i++) {
 		if(taskList[i].id !== divItem.id)
 			continue;
-                
+                    
                 if(getName() !== taskList[i].name)
                     return;
                 
@@ -203,12 +204,12 @@ function post(url, data, continueWith, continueWithError) {
 	ajax('POST', url, data, continueWith, continueWithError);	
 }
 
-function del(url, data, continueWith, continueWithError) {
-	ajax('DELETE', url, data, continueWith, continueWithError);	
-}
-
 function put(url, data, continueWith, continueWithError) {
 	ajax('PUT', url, data, continueWith, continueWithError);	
+}
+
+function del(url, data, continueWith, continueWithError) {
+	ajax('DELETE', url, data, continueWith, continueWithError);	
 }
 
 function isError(text) {
@@ -225,6 +226,7 @@ function isError(text) {
 }
 
 function ajax(method, url, data, continueWith, continueWithError) {
+    alert(method);
 	var xhr = new XMLHttpRequest();
 
 	continueWithError = continueWithError || defaultErrorHandler;
