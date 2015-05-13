@@ -51,7 +51,7 @@ public class TaskServlet extends HttpServlet {
 		if (token != null && !"".equals(token)) {
 			int index = getIndex(token);
 			logger.info("Index " + index);
-			String tasks = formResponse(0);
+			String tasks = formResponse(index);
 			response.setContentType(ServletUtil.APPLICATION_JSON);
 			PrintWriter out = response.getWriter();
 			out.print(tasks);
@@ -115,6 +115,24 @@ public class TaskServlet extends HttpServlet {
 			TaskStorage.addAll(XMLHistoryUtil.getTasks());
 		} else {
 			XMLHistoryUtil.createStorage();
+			addStubData();
 		}
 	}
+	
+	private void addStubData() throws ParserConfigurationException, TransformerException {
+		Task[] stubTasks = { 
+				new Task("1", "Create markup", true), 
+				new Task("2", "Learn JavaScript", true),
+				new Task("3", "Learn Java Servlet Technology", false), 
+				new Task("4", "Write The Chat !", false), };
+		TaskStorage.addAll(stubTasks);
+		for (Task task : stubTasks) {
+			try {
+				XMLHistoryUtil.addData(task);
+			} catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
+				logger.error(e);
+			}
+		}
+	}
+
 }

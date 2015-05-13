@@ -176,7 +176,7 @@ function createItem(task) {
 }
 
 function restore(continueWith) {
-	var url = appState.mainUrl + '?token=' + appState.token + '&name=' + getName();
+	var url = appState.mainUrl + '?token= TN11EN' + '&name=' + getName();
 
 	get(url, function(responseText) {
 		console.assert(responseText !== null);
