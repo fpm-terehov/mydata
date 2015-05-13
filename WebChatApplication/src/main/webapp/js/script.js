@@ -102,6 +102,7 @@ function onCngItem(divItem) {
 
             if(taskList[i].done || getName() !== taskList[i].name)
                 return;
+            
             var all = document.createElement('input');
             all.classList.add('vis');
             all.setAttribute('type','text');
@@ -118,7 +119,7 @@ function onDelItem(divItem) {
 	for(var i = 0; i < taskList.length; i++) {
 		if(taskList[i].id !== divItem.id)
 			continue;
-                
+                    
                 if(getName() !== taskList[i].name)
                     return;
                 
@@ -131,7 +132,7 @@ function onDelItem(divItem) {
 
 function toggle(task, continueWith) {
 	task.done = !task.done;
-	put(appState.mainUrl + '?id=' + task.id, JSON.stringify(task), function() {
+	del(appState.mainUrl + '?id=' + task.id, JSON.stringify(task), function() {
 	});
 }
 
@@ -176,7 +177,7 @@ function createItem(task) {
 }
 
 function restore(continueWith) {
-	var url = appState.mainUrl + '?token= TN11EN' + '&name=' + getName();
+	var url = appState.mainUrl + '?token=' + appState.token + '&name=' + getName();
 
 	get(url, function(responseText) {
 		console.assert(responseText !== null);
@@ -206,6 +207,10 @@ function put(url, data, continueWith, continueWithError) {
 	ajax('PUT', url, data, continueWith, continueWithError);	
 }
 
+function del(url, data, continueWith, continueWithError) {
+	ajax('DELETE', url, data, continueWith, continueWithError);	
+}
+
 function isError(text) {
 	if(text === "")
 		return false;
@@ -220,6 +225,7 @@ function isError(text) {
 }
 
 function ajax(method, url, data, continueWith, continueWithError) {
+    alert(method);
 	var xhr = new XMLHttpRequest();
 
 	continueWithError = continueWithError || defaultErrorHandler;
