@@ -1,4 +1,4 @@
-package org.exadel.todos.model;
+package model;
 
 import java.util.ArrayList;
 import java.util.Arrays;

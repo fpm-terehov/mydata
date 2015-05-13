@@ -1,4 +1,4 @@
-package org.exadel.todos.model;
+package model;
 
 public class Task {
 	private String id;

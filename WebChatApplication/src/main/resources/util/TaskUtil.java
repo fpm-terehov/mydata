@@ -1,6 +1,6 @@
-package org.exadel.todos.util;
+package util;
 
-import org.exadel.todos.model.Task;
+import model.Task;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;

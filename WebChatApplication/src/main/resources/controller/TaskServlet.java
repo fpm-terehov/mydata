@@ -1,11 +1,11 @@
 package controller;
 
-import static org.exadel.todos.util.TaskUtil.TASKS;
-import static org.exadel.todos.util.TaskUtil.TOKEN;
-import static org.exadel.todos.util.TaskUtil.getIndex;
-import static org.exadel.todos.util.TaskUtil.getToken;
-import static org.exadel.todos.util.TaskUtil.jsonToTask;
-import static org.exadel.todos.util.TaskUtil.stringToJson;
+import static util.TaskUtil.TASKS;
+import static util.TaskUtil.TOKEN;
+import static util.TaskUtil.getIndex;
+import static util.TaskUtil.getToken;
+import static util.TaskUtil.jsonToTask;
+import static util.TaskUtil.stringToJson;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,10 +20,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.log4j.Logger;
-import org.exadel.todos.model.Task;
-import org.exadel.todos.model.TaskStorage;
-import org.exadel.todos.storage.xml.XMLHistoryUtil;
-import org.exadel.todos.util.ServletUtil;
+import model.Task;
+import model.TaskStorage;
+import storage.xml.XMLHistoryUtil;
+import util.ServletUtil;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.xml.sax.SAXException;
@@ -115,24 +115,6 @@ public class TaskServlet extends HttpServlet {
 			TaskStorage.addAll(XMLHistoryUtil.getTasks());
 		} else {
 			XMLHistoryUtil.createStorage();
-			addStubData();
 		}
 	}
-	
-	private void addStubData() throws ParserConfigurationException, TransformerException {
-		Task[] stubTasks = { 
-				new Task("1", "Create markup", true), 
-				new Task("2", "Learn JavaScript", true),
-				new Task("3", "Learn Java Servlet Technology", false), 
-				new Task("4", "Write The Chat !", false), };
-		TaskStorage.addAll(stubTasks);
-		for (Task task : stubTasks) {
-			try {
-				XMLHistoryUtil.addData(task);
-			} catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
-				logger.error(e);
-			}
-		}
-	}
-
 }
