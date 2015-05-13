@@ -1,26 +1,16 @@
-package model;
+package org.exadel.todos.model;
 
-public class Message {
+public class Task {
 	private String id;
-        private String name;
 	private String description;
 	private boolean done;
 
-	public Message(String id, String name, String description, boolean done) {
+	public Task(String id, String description, boolean done) {
 		this.id = id;
-                this.name = name;
 		this.description = description;
 		this.done = done;
 	}
 
-        public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-        
 	public String getId() {
 		return id;
 	}
@@ -46,8 +36,6 @@ public class Message {
 	}
 
 	public String toString() {
-		return "{\"id\":\"" + this.id + "\",\"name\":\"" + this.name +
-                        "\",\"description\":\"" + this.description +
-                        "\",\"done\":" + this.done + "}";
+		return "{\"id\":\"" + this.id + "\",\"description\":\"" + this.description + "\",\"done\":" + this.done + "}";
 	}
 }

@@ -1,4 +1,4 @@
-package storage.xml;
+package org.exadel.todos.storage.xml;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import model.Message;
+import org.exadel.todos.model.Task;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -33,7 +33,6 @@ public final class XMLHistoryUtil {
 	private static final String TASKS = "tasks";
 	private static final String TASK = "task";
 	private static final String ID = "id";
-	private static final String NAME = "name";
 	private static final String DESCRIPTION = "description";
 	private static final String DONE = "done";
 
@@ -55,7 +54,7 @@ public final class XMLHistoryUtil {
 		transformer.transform(source, result);
 	}
 
-	public static synchronized void addData(Message task) throws ParserConfigurationException, SAXException, IOException, TransformerException {
+	public static synchronized void addData(Task task) throws ParserConfigurationException, SAXException, IOException, TransformerException {
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document document = documentBuilder.parse(STORAGE_LOCATION);
@@ -67,10 +66,6 @@ public final class XMLHistoryUtil {
 		root.appendChild(taskElement);
 
 		taskElement.setAttribute(ID, task.getId());
-                
-                Element name = document.createElement(NAME);
-		name.appendChild(document.createTextNode(task.getName()));
-		taskElement.appendChild(name);
 
 		Element description = document.createElement(DESCRIPTION);
 		description.appendChild(document.createTextNode(task.getDescription()));
@@ -88,7 +83,7 @@ public final class XMLHistoryUtil {
 		transformer.transform(source, result);
 	}
 
-	public static synchronized void updateData(Message task) throws ParserConfigurationException, SAXException, IOException, TransformerException, XPathExpressionException {
+	public static synchronized void updateData(Task task) throws ParserConfigurationException, SAXException, IOException, TransformerException, XPathExpressionException {
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document document = documentBuilder.parse(STORAGE_LOCATION);
@@ -124,13 +119,12 @@ public final class XMLHistoryUtil {
 	}
 
 	public static synchronized boolean doesStorageExist() {
-            return false;
-		//File file = new File(STORAGE_LOCATION);
-                //return file.exists();
+		File file = new File(STORAGE_LOCATION);
+		return file.exists();
 	}
 
-	public static synchronized List<Message> getTasks() throws SAXException, IOException, ParserConfigurationException {
-		List<Message> tasks = new ArrayList<>();
+	public static synchronized List<Task> getTasks() throws SAXException, IOException, ParserConfigurationException {
+		List<Task> tasks = new ArrayList<>();
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document document = documentBuilder.parse(STORAGE_LOCATION);
@@ -140,10 +134,9 @@ public final class XMLHistoryUtil {
 		for (int i = 0; i < taskList.getLength(); i++) {
 			Element taskElement = (Element) taskList.item(i);
 			String id = taskElement.getAttribute(ID);
-			String name = taskElement.getElementsByTagName(NAME).item(0).getTextContent();
 			String description = taskElement.getElementsByTagName(DESCRIPTION).item(0).getTextContent();
 			boolean done = Boolean.valueOf(taskElement.getElementsByTagName(DONE).item(0).getTextContent());
-			tasks.add(new Message(id, name, description, done));
+			tasks.add(new Task(id, description, done));
 		}
 		return tasks;
 	}
