@@ -1,11 +1,7 @@
 'use strict';
 
-var intervalID;
-
-function getName() {
-    var params = location.search;
-    return params.split("=")[1];
-}
+var flag = true;
+var getName;
 
 var uniqueId = function() {
 	var date = Date.now();
@@ -14,7 +10,7 @@ var uniqueId = function() {
 	return Math.floor(date * random).toString();
 };
 
-var theTask = function(text, str, done) {
+var theMess = function(text, str, done) {
 	return {
                 name:str,
 		description:text,
@@ -25,26 +21,49 @@ var theTask = function(text, str, done) {
 
 var appState = {
 	mainUrl : 'WebChatApplication',
-	taskList:[],
+	messList:[],
 	token : 'TN11EN'
 };
+
+function ref() {
+        var username = document.getElementById('user').value;
+        if(username==='') {
+            alert('enter login');
+            return;
+        }
+        var m = getName;
+        getName = username;
+        document.getElementById('user').value = '';
+        if(flag) {
+            flag = false;
+            run();
+        }
+        var messList = appState.messList; 
+        for(var i = 0; i < messList.length; i++) {
+            if(messList[i].name !== m)
+                continue;
+            messList[i].name = getName;
+            put(appState.mainUrl + '?id=' + messList[i].id, JSON.stringify(messList[i]), function() {
+            });
+        }
+    }
 
 function run() {
 	var appContainer = document.getElementsByClassName('page')[0];
 
 	appContainer.addEventListener('click', delegateEvent);
         appContainer.addEventListener('keydown', delegateEvent);
-	restore();
+	setInterval(restore,500);
 }
 
-function createAllTasks(allTasks) {
-        appState.taskList = [];
+function createAllMessages(allMessages) {
+        appState.messList = [];
         var items = document.getElementsByClassName('chat vis')[0];
         while (items.firstChild) {
             items.removeChild(items.firstChild);
         }
-	for(var i = 0; i < allTasks.length; i++){
-		addTodoInternal(allTasks[i]);
+	for(var i = 0; i < allMessages.length; i++){
+		addTodoInternal(allMessages[i]);
             }
 }
 
@@ -67,41 +86,41 @@ function delegateEvent(evtObj) {
 
 function onAddButtonClick(){
 	var todoText = document.getElementById('message');
-	var newTask = theTask(todoText.value, getName(), false);
+	var newMess = theMess(todoText.value, getName, false);
 
 	if(todoText.value === '')
 		return;
 
 	todoText.value = '';
-	addTodo(newTask, function() {
+	addTodo(newMess, function() {
 	});
 } 
 
 function enter(evtObj) {
         if(evtObj.keyCode !== 13)
             return;
-	var taskList = appState.taskList; 
+	var messList = appState.messList; 
         var k = evtObj.target.parentNode;
         var text = evtObj.target.value;
         k.removeChild(evtObj.target);
         k.appendChild(document.createTextNode(text));
-        for(var i = 0; i < taskList.length; i++) {
-            if(taskList[i].id !== k.id)
+        for(var i = 0; i < messList.length; i++) {
+            if(messList[i].id !== k.id)
                 continue;
-            taskList[i].description = evtObj.target.value;
-            put(appState.mainUrl + '?id=' + taskList[i].id, JSON.stringify(taskList[i]), function() {
+            messList[i].description = evtObj.target.value;
+            put(appState.mainUrl + '?id=' + messList[i].id, JSON.stringify(messList[i]), function() {
             });
             return;
         }    
 }
 
 function onCngItem(divItem) {
-	var taskList = appState.taskList;  
-        for(var i = 0; i < taskList.length; i++) {
-            if(taskList[i].id !== divItem.id)
+	var messList = appState.messList;  
+        for(var i = 0; i < messList.length; i++) {
+            if(messList[i].id !== divItem.id)
                 continue;
 
-            if(taskList[i].done || getName() !== taskList[i].name)
+            if(messList[i].done || getName !== messList[i].name)
                 return;
             
             var all = document.createElement('input');
@@ -115,46 +134,46 @@ function onCngItem(divItem) {
 }
 
 function onDelItem(divItem) {
-	var taskList = appState.taskList;
+	var messList = appState.messList;
 
-	for(var i = 0; i < taskList.length; i++) {
-		if(taskList[i].id !== divItem.id)
+	for(var i = 0; i < messList.length; i++) {
+		if(messList[i].id !== divItem.id)
 			continue;
                     
-                if(getName() !== taskList[i].name)
+                if(getName !== messList[i].name)
                     return;
                 
-		toggle(taskList[i], function() {
+		toggle(messList[i], function() {
 		});
 
 		return;
 	}
 }
 
-function toggle(task, continueWith) {
-	task.done = !task.done;
-	del(appState.mainUrl + '?id=' + task.id, JSON.stringify(task), function() {
+function toggle(mess, continueWith) {
+	mess.done = !mess.done;
+	del(appState.mainUrl + '?id=' + mess.id, JSON.stringify(mess), function() {
 	});
 }
 
-function addTodo(task, continueWith) {
-	post(appState.mainUrl, JSON.stringify(task), function(){
+function addTodo(mess, continueWith) {
+	post(appState.mainUrl, JSON.stringify(mess), function(){
 	});
 }
 
-function addTodoInternal(task) {
-        var item = createItem(task);
+function addTodoInternal(mess) {
+        var item = createItem(mess);
 	var items = document.getElementsByClassName('chat vis')[0];
-        var taskList = appState.taskList;
+        var messList = appState.messList;
         	
-        taskList.push(task);
+        messList.push(mess);
 	items.appendChild(item);
 }
 
-function createItem(task) {
+function createItem(mess) {
 	var divItem = document.createElement('div');
 	divItem.classList.add('item');
-        divItem.id = task.id;
+        divItem.id = mess.id;
         
 	var btn = document.createElement('button');
         btn.classList.add('buttons1');
@@ -168,9 +187,9 @@ function createItem(task) {
         btn.id = 2;
 	divItem.appendChild(btn);
         
-        divItem.appendChild(document.createTextNode(' '+task.name+': '));
-        divItem.appendChild(document.createTextNode(task.description));
-        if(task.done) {
+        divItem.appendChild(document.createTextNode(' '+mess.name+': '));
+        divItem.appendChild(document.createTextNode(mess.description));
+        if(mess.done) {
             divItem.classList.add('deleted');
             divItem.childNodes[1].textContent = 'res';
         }
@@ -178,7 +197,7 @@ function createItem(task) {
 }
 
 function restore(continueWith) {
-	var url = appState.mainUrl + '?token=TN11EN' + '&name=' + getName();
+	var url = appState.mainUrl + '?token=TN11EN' + '&name=' + getName;
 
 	get(url, function(responseText) {
 		console.assert(responseText !== null);
@@ -186,7 +205,8 @@ function restore(continueWith) {
 		var response = JSON.parse(responseText);
 
 		appState.token = response.token;
-		createAllTasks(response.tasks);
+                
+                createAllMessages(response.messages);
 
 		continueWith && continueWith();
 	});
@@ -226,7 +246,6 @@ function isError(text) {
 }
 
 function ajax(method, url, data, continueWith, continueWithError) {
-    alert(method);
 	var xhr = new XMLHttpRequest();
 
 	continueWithError = continueWithError || defaultErrorHandler;
@@ -236,11 +255,10 @@ function ajax(method, url, data, continueWith, continueWithError) {
 		if (xhr.readyState !== 4)
 			return;
 
-		if(xhr.status !== 200) {
-			continueWithError('Error on the server side, response ' + xhr.status);
-			return;
+		if(xhr.status !== 200 && xhr.status !== 304) {
+			location.href='errjsp.jsp?er='+xhr.status;
 		}
-
+                
 		if(isError(xhr.responseText)) {
 			continueWithError('Error on the server side, response ' + xhr.responseText);
 			return;
@@ -257,8 +275,7 @@ function ajax(method, url, data, continueWith, continueWithError) {
     	alert('Server connection error !\n'+
     	'\n' +
     	'Check if \n'+
-    	'- server is active\n'+
-    	'- server sends header "Access-Control-Allow-Origin:*"');
+    	'- server is active\n');
 
         continueWithError();
     };
