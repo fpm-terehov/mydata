@@ -197,15 +197,14 @@ function createItem(mess) {
 }
 
 function restore(continueWith) {
-	var url = appState.mainUrl + '?token=TN11EN' + '&name=' + getName;
+	var url = appState.mainUrl + '?token=' + appState.token + '&name=' + getName;
 
 	get(url, function(responseText) {
 		console.assert(responseText !== null);
 
 		var response = JSON.parse(responseText);
 
-		appState.token = response.token;
-                
+		appState.token = 'TN19EN';
                 createAllMessages(response.messages);
 
 		continueWith && continueWith();
@@ -258,6 +257,10 @@ function ajax(method, url, data, continueWith, continueWithError) {
 		if(xhr.status !== 200 && xhr.status !== 304) {
 			location.href='errjsp.jsp?er='+xhr.status;
 		}
+                
+                if(xhr.status === 304) {
+                    return;
+                }
                 
 		if(isError(xhr.responseText)) {
 			continueWithError('Error on the server side, response ' + xhr.responseText);

@@ -35,12 +35,11 @@ import org.xml.sax.SAXException;
 public class MessageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(MessageServlet.class.getName());
-        private static Map<String,Boolean> users = Collections.synchronizedMap(new HashMap<String,Boolean>());
+        private static Map<String, Boolean> users = Collections.synchronizedMap(new HashMap<String,Boolean>());
 
 	@Override
 	public void init() throws ServletException {
 		try {
-                    logger.info("fd");
 			loadHistory();
                         for(int i = 0; i < MessageStorage.getSize(); i++) {
                             logger.info(MessageStorage.getStorage().get(i));
@@ -58,13 +57,15 @@ public class MessageServlet extends HttpServlet {
                 if(!users.containsKey(user)){
                     users.put(user, Boolean.FALSE);
                 }
-                if(users.get(user)) {
+                if(getIndex(token) == 0){
+                    users.put(user, Boolean.FALSE);
+                }
+                if(users.get(user) == true) {
                     response.sendError(HttpServletResponse.SC_NOT_MODIFIED);
                     return;
                 }
 		if (token != null && !"".equals(token)) {
-			int index = getIndex(token);
-			String messages = formResponse(index);
+			String messages = formResponse();
                         logger.info(messages);
 			response.setContentType(ServletUtil.APPLICATION_JSON);
 			PrintWriter out = response.getWriter();
@@ -155,9 +156,9 @@ public class MessageServlet extends HttpServlet {
 	}
         
 	@SuppressWarnings("unchecked")
-	private String formResponse(int index) {
+	private String formResponse() {
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put(MESSAGES, MessageStorage.getSubMessagesByIndex(index));
+		jsonObject.put(MESSAGES, MessageStorage.getSubMessagesByIndex(0));
 		jsonObject.put(TOKEN, getToken(MessageStorage.getSize()));
 		return jsonObject.toJSONString();
 	}
